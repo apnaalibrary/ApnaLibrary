@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Previous Year Papers | Apna Library</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Poppins:wght@300;400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    :root {
+        --bg-1:#faf8f4; --bg-2:#f1ece1; --ink:#14213d; --ink-soft:rgba(20,33,61,0.62); --ink-faint:rgba(20,33,61,0.38);
+        --gold:#c9a227; --gold-deep:#93710f; --gold-soft:rgba(201,162,39,0.12);
+        --glass:rgba(255,255,255,0.55); --glass-strong:rgba(255,255,255,0.78); --glass-border:rgba(255,255,255,0.9);
+        --line:rgba(20,33,61,0.1); --shadow:0 20px 60px rgba(20,33,61,0.10);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background:linear-gradient(180deg,var(--bg-1),var(--bg-2)); color: var(--ink); min-height: 100vh; overflow-x: hidden; position:relative; }
+    .blob{ position:fixed; border-radius:50%; filter:blur(90px); z-index:0; pointer-events:none; }
+    .blob-gold{ width:420px; height:420px; background:rgba(212,175,55,0.30); top:-140px; right:-110px; }
+    .blob-navy{ width:460px; height:460px; background:rgba(20,33,61,0.10); bottom:-180px; left:-150px; }
+
+    nav { position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 18px 5%; background: rgba(255,255,255,0.65); backdrop-filter: blur(20px); border-bottom: 1px solid var(--line); z-index: 1000; }
+    .logo { font-family: 'Playfair Display', serif; font-size: clamp(1.2rem, 4vw, 1.6rem); color: var(--ink); font-weight: 800; }
+    .logo span { color: var(--gold-deep); font-family: 'Poppins', sans-serif; font-size: 0.6rem; display: block; letter-spacing: 3px; }
+    .menu-btn { font-size: 1.6rem; color: var(--gold-deep); cursor: pointer; background: none; border: none; transition: 0.3s; }
+    .sidebar { position: fixed; top: 0; right: -340px; width: 310px; height: 100vh; background: rgba(255,255,255,0.85); backdrop-filter: blur(24px); border-left: 1px solid var(--glass-border); transition: 0.4s ease; z-index: 2000; padding: 40px 20px; box-shadow: -20px 0 60px rgba(20,33,61,0.12); }
+    .sidebar.active { right: 0; }
+    .close-btn { font-size: 1.8rem; color: var(--ink); cursor: pointer; float: right; margin-bottom: 30px; }
+    .sidebar-links { display: flex; flex-direction: column; gap: 10px; clear: both; }
+    .sidebar-links a { color: var(--ink); text-decoration: none; font-size: 1rem; padding: 14px; border-radius:12px; display: flex; align-items: center; gap: 14px; transition: 0.25s; }
+    .sidebar-links a:hover { color: var(--gold-deep); background: var(--gold-soft); }
+
+    .page-content { position:relative; z-index:1; margin-top: 100px; padding: 20px 5% 50px; }
+    .pyp-section { max-width:680px; margin:0 auto; }
+    .pyp-header { text-align:center; margin-bottom:30px; }
+    .pyp-header h2 { font-family:'Fraunces',serif; font-weight:600; font-size:2.5rem; margin-bottom:8px; color:var(--ink); }
+    .pyp-header p { font-size:14px; color:var(--ink-soft); }
+    .pyp-card { display:flex; align-items:center; gap:16px; padding:20px 24px; border-radius:20px; background:var(--glass-strong); backdrop-filter:blur(24px); border:1px solid var(--glass-border); box-shadow:var(--shadow); cursor:pointer; transition:0.3s; }
+    .pyp-card:hover { border-color:var(--gold); transform:translateY(-3px); }
+    .pyp-card-icon { font-size:24px; color:var(--gold-deep); width:50px; height:50px; display:flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:50%; }
+    .pyp-card-text { flex:1; }
+    .pyp-card-text strong { font-size:16px; font-weight:600; display:block; }
+    .pyp-card-text span { font-size:13px; color:var(--ink-faint); }
+    
+    .pyp-overlay { position:fixed; inset:0; background:rgba(20,33,61,0.4); backdrop-filter:blur(6px); display:flex; align-items:flex-end; justify-content:center; z-index:9999; opacity:0; visibility:hidden; transition:0.3s; }
+    .pyp-overlay.active { opacity:1; visibility:visible; }
+    .pyp-modal { width:100%; max-width:680px; max-height:85vh; overflow-y:auto; background:rgba(255,255,255,0.95); backdrop-filter:blur(30px); border:1px solid var(--glass-border); border-top:3px solid var(--gold); border-radius:24px 24px 0 0; padding:30px 20px; position:relative; transform:translateY(100%); transition:transform 0.4s cubic-bezier(0.2,0.8,0.2,1); }
+    .pyp-overlay.active .pyp-modal { transform:translateY(0); }
+    .pyp-close { position:absolute; top:20px; right:20px; width:36px; height:36px; border-radius:50%; border:1px solid var(--line); background:var(--glass); color:var(--ink); font-size:16px; cursor:pointer; }
+    .pyp-step h3 { font-family:'Playfair Display',serif; font-size:1.5rem; margin-bottom:20px; }
+    .pyp-class-choice { display:flex; gap:15px; }
+    .pyp-class-btn { flex:1; padding:25px 15px; border-radius:18px; border:1px solid var(--line); background:var(--glass-strong); display:flex; flex-direction:column; align-items:center; gap:10px; cursor:pointer; font-weight:500; transition:0.3s; }
+    .pyp-class-btn:hover { border-color:var(--gold); box-shadow:0 10px 20px var(--gold-soft); }
+    .pyp-class-num { font-family:'Playfair Display',serif; font-size:32px; color:var(--gold-deep); font-weight:600; }
+    
+    .pyp-back { background:none; border:none; color:var(--gold-deep); font-weight:600; font-size:14px; margin-bottom:20px; cursor:pointer; display:flex; align-items:center; gap:8px; }
+    .pyp-year-block { margin-bottom:12px; border-radius:16px; border:1px solid var(--line); background:var(--glass-strong); overflow:hidden; }
+    .pyp-year-head { display:flex; justify-content:space-between; align-items:center; padding:16px 20px; cursor:pointer; font-weight:600; }
+    .pyp-subjects { max-height:0; overflow:hidden; transition:max-height 0.3s ease; }
+    .pyp-subjects-inner { display:flex; flex-direction:column; gap:8px; padding:5px 20px 20px; }
+    .pyp-subj-btn { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border-radius:12px; text-decoration:none; background:var(--gold-soft); color:var(--ink); font-weight:500; transition:0.2s; }
+    .pyp-subj-btn:hover { background:rgba(201,162,39,0.2); }
+</style>
+</head>
+<body>
+<div class="blob blob-gold"></div>
+<div class="blob blob-navy"></div>
+
+<nav>
+    <div class="logo">APNA <span>LIBRARY</span></div>
+    <button class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+</nav>
+
+<div class="sidebar" id="sidebar">
+    <i class="fas fa-times close-btn" onclick="toggleSidebar()"></i>
+    <div class="sidebar-links">
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="seat.html"><i class="fas fa-chair"></i> Live Seat Matrix</a>
+        <a href="enquiry.html"><i class="fas fa-paper-plane"></i> Book a Seat</a>
+        <a href="papers.html" style="color: var(--gold-deep); background: var(--gold-soft);"><i class="fa-solid fa-file-lines"></i> CBSE Papers</a>
+        <a href="ebook.html"><i class="fa-solid fa-book"></i> NCERT E-Books</a>
+        <a href="curricular.html"><i class="fa-solid fa-book-open-reader"></i> CBSE Curricular</a>
+        <a href="digilocker.html"><i class="fa-solid fa-cloud-arrow-down"></i> DigiLocker</a>
+        <a href="pariksha.html"><i class="fa-solid fa-laptop-file"></i> Pariksha Sangam</a>
+        <a href="cbse.html"><i class="fa-solid fa-globe"></i> CBSE Official</a>
+    </div>
+</div>
+
+<div class="page-content">
+    <section class="pyp-section">
+        <div class="pyp-header">
+            <h2>CBSE Previous Year Papers</h2>
+            <p>Official Question Papers for Class X & XII (2015 - 2026)</p>
+        </div>
+        <div class="pyp-card" id="pypOpenBtn">
+            <div class="pyp-card-icon"><i class="fa-solid fa-file-lines"></i></div>
+            <div class="pyp-card-text">
+                <strong>View Question Papers</strong>
+                <span>Select Class → Year → Subject</span>
+            </div>
+        </div>
+
+        <div class="pyp-overlay" id="pypOverlay">
+            <div class="pyp-modal">
+                <button class="pyp-close" id="pypClose"><i class="fa-solid fa-xmark"></i></button>
+                
+                <div class="pyp-step" id="pypStepClass">
+                    <h3>Select Class</h3>
+                    <div class="pyp-class-choice">
+                        <button class="pyp-class-btn" data-class="X">
+                            <span class="pyp-class-num">X</span>
+                            <span>Class 10</span>
+                        </button>
+                        <button class="pyp-class-btn" data-class="XII">
+                            <span class="pyp-class-num">XII</span>
+                            <span>Class 12</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pyp-step" id="pypStepYears" style="display:none;">
+                    <button class="pyp-back" id="pypBack"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <h3 id="pypYearTitle">Select Year</h3>
+                    <div class="pyp-years" id="pypYearsList"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
+
+(function(){
+    const PYP_DATA = {
+        X: {
+            "2025-26": [["Maths Standard","https://cbseacademic.nic.in/web_material/SQP/ClassX_2025_26/MathsStandard-SQP.pdf"],["Maths Basic","https://cbseacademic.nic.in/web_material/SQP/ClassX_2025_26/MathsBasic-SQP.pdf"],["English","https://cbseacademic.nic.in/web_material/SQP/ClassX_2025_26/EnglishL-SQP.pdf"],["Hindi A","https://cbseacademic.nic.in/web_material/SQP/ClassX_2025_26/HindiCourseA-SQP.pdf"],["SST","https://cbseacademic.nic.in/web_material/SQP/ClassX_2025_26/SocialScience-SQP.pdf"],["Science","https://cbseacademic.nic.in/web_material/SQP/ClassX_2025_26/Science-SQP.pdf"],["IT","https://cbseacademic.nic.in/skill-education-sqp.html"]],
+            "2024-25": [["Maths Standard","https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/MathsStandard-SQP.pdf"],["Maths Basic","https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/MathsBasic-SQP.pdf"],["English","https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/EnglishL-SQP.pdf"],["Hindi A","https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/HindiCourseA-SQP.pdf"],["SST","https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/SocialScience-SQP.pdf"],["Science","https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Science-SQP.pdf"],["IT","https://cbseacademic.nic.in/skill-education-sqp.html"]],
+            "2023-24": [["Maths Standard","https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/MathsStandard-SQP.pdf"],["Maths Basic","https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/MathsBasic-SQP.pdf"],["English","https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/EnglishL-SQP.pdf"],["Hindi A","https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/HindiCourseA-SQP.pdf"],["SST","https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/SocialScience-SQP.pdf"],["Science","https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Science-SQP.pdf"],["IT","https://cbseacademic.nic.in/skill-education-sqp.html"]],
+            "2022-23": [["Maths Standard","https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/MathsStandard-SQP.pdf"],["Maths Basic","https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/MathsBasic-SQP.pdf"],["English","https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/EnglishL-SQP.pdf"],["Hindi A","https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/HindiCourseA-SQP.pdf"],["SST","https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/SocialScience-SQP.pdf"],["Science","https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Science-SQP.pdf"],["IT","https://cbseacademic.nic.in/skill-education-sqp.html"]],
+            "2021-22": [["Maths Standard","https://cbseacademic.nic.in/web_material/SQP/ClassX_2021_22/MathsStandard-SQP.pdf"],["Maths Basic","https://cbseacademic.nic.in/web_material/SQP/ClassX_2021_22/MathsBasic-SQP.pdf"],["English","https://cbseacademic.nic.in/web_material/SQP/ClassX_2021_22/EnglishL-SQP.pdf"],["Hindi A","https://cbseacademic.nic.in/web_material/SQP/ClassX_2021_22/HindiCourseA-SQP.pdf"],["SST","https://cbseacademic.nic.in/web_material/SQP/ClassX_2021_22/SocialScience-SQP.pdf"],["Science","https://cbseacademic.nic.in/web_material/SQP/ClassX_2021_22/Science-SQP.pdf"],["IT","https://cbseacademic.nic.in/skill-education-sqp.html"]],
+            "2020-21": [["Maths Standard","https://cbseacademic.nic.in/web_material/SQP/ClassX_2020_21/MathsStandard-SQP.pdf"],["Maths Basic","https://cbseacademic.nic.in/web_material/SQP/ClassX_2020_21/MathsBasic-SQP.pdf"],["English","https://cbseacademic.nic.in/web_material/SQP/ClassX_2020_21/EnglishL-SQP.pdf"],["Hindi A","https://cbseacademic.nic.in/web_material/SQP/ClassX_2020_21/HindiCourseA-SQP.pdf"],["SST","https://cbseacademic.nic.in/web_material/SQP/ClassX_2020_21/SocialScience-SQP.pdf"],["Science","https://cbseacademic.nic.in/web_material/SQP/ClassX_2020_21/Science-SQP.pdf"],["IT","https://cbseacademic.nic.in/skill-education-sqp.html"]],
+            "2019-20": [["Maths Standard","https://cbseacademic.nic.in/web_material/SQP/ClassX_2019_20/MathematicsStandard_SQP.pdf"],["Maths Basic","https://cbseacademic.nic.in/web_material/SQP/ClassX_2019_20/MathematicsBasic_SQP.pdf"],["English","https://cbseacademic.nic.in/web_material/SQP/ClassX_2019_20/EnglishL_SQP.pdf"],["Hindi A","https://cbseacademic.nic.in/web_material/SQP/ClassX_2019_20/HindiA_SQP.pdf"],["SST","https://cbseacademic.nic.in/web_material/SQP/ClassX_2019_20/SocialScience_SQP.pdf"],["Science","https://cbseacademic.nic.in/web_material/SQP/ClassX_2019_20/Science_SQP.pdf"],["IT","https://cbseacademic.nic.in/skill-education-sqp.html"]],
+            "2018-19": [["Maths Standard","https://cbseacademic.nic.in/web_material/SQP/CLASS_X_2018_19/X-Maths_SQP_2018-19.pdf"],["Maths Basic","https://cbseacademic.nic.in/SQP_CLASSX_2018_19.html"],["English","https://cbseacademic.nic.in/web_material/SQP/CLASS_X_2018_19/X-English_LANG_LIT_SQP_2019.pdf"],["Hindi A","https://cbseacademic.nic.in/SQP_CLASSX_2018_19.html"],["SST","https://cbseacademic.nic.in/web_material/SQP/CLASS_X_2018_19/X-SS_SQP_2018-19.pdf"],["Science","https://cbseacademic.nic.in/web_material/SQP/CLASS_X_2018_19/X_Science_SQP_2018-19.pdf"],["IT","https://cbseacademic.nic.in/skill-education-sqp.html"]],
+            "2017-18": [["Maths Standard","https://cbseacademic.nic.in/web_material/SQP/CLASS_X_2017_18/Maths_SQP.pdf"],["Maths Basic","https://cbseacademic.nic.in/web_material/SQP/CLASS_X_2017_18/MathsBasic_SQP.pdf"],["English","https://cbseacademic.nic.in/web_material/SQP/CLASS_X_2017_18/English_Lang_Lit_SQP.pdf"],["Hindi A","https://cbseacademic.nic.in/web_material/SQP/CLASS_X_2017_18/hindi-A-SQP.pdf"],["SST","https://cbseacademic.nic.in/web_material/SQP/CLASS_X_2017_18/SS_SQP.pdf"],["Science","https://cbseacademic.nic.in/web_material/SQP/CLASS_X_2017_18/Science_SQP.pdf"],["IT","https://cbseacademic.nic.in/skill-education-sqp.html"]],
+            "2016-17": [["Maths Standard","https://cbseacademic.nic.in/web_material/SQP/CLASS%20X_2016_17/SQP-Mathametics-Class-X.pdf"],["Maths Basic","https://cbseacademic.nic.in/SQP_CLASSX_2016_17.html"],["English","https://cbseacademic.nic.in/SQP_CLASSX_2016_17.html"],["Hindi A","https://cbseacademic.nic.in/SQP_CLASSX_2016_17.html"],["SST","https://cbseacademic.nic.in/SQP_CLASSX_2016_17.html"],["Science","https://cbseacademic.nic.in/SQP_CLASSX_2016_17.html"],["IT","https://cbseacademic.nic.in/skill-education-sqp.html"]],
+            "2015-16": [["Maths Standard","https://cbseacademic.nic.in/web_material/SQP/CLASS%20X_2015_16/Maths/SQP%20Maths%20set%20-II%20class%20X.pdf"],["Maths Basic","https://cbseacademic.nic.in/SQP_CLASSX_2015_16.html"],["English","https://cbseacademic.nic.in/SQP_CLASSX_2015_16.html"],["Hindi A","https://cbseacademic.nic.in/SQP_CLASSX_2015_16.html"],["SST","https://cbseacademic.nic.in/SQP_CLASSX_2015_16.html"],["Science","https://cbseacademic.nic.in/SQP_CLASSX_2015_16.html"],["IT","https://cbseacademic.nic.in/skill-education-sqp.html"]]
+        },
+        XII: {
+            "2025-26": [["Hindi Core","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/HindiCore-SQP.pdf"],["Physics","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/Physics-SQP.pdf"],["Chemistry","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/Chemistry-SQP.pdf"],["Biology","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/Biology-SQP.pdf"],["Maths","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/Maths-SQP.pdf"],["English","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/EnglishCore-SQP.pdf"],["Phy. Education","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/PhysicalEducation-SQP.pdf"]],
+            "2024-25": [["Hindi Core","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/HindiCore-SQP.pdf"],["Physics","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Physics-SQP.pdf"],["Chemistry","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Chemistry-SQP.pdf"],["Biology","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Biology-SQP.pdf"],["Maths","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Maths-SQP.pdf"],["English","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-SQP.pdf"],["Phy. Education","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/PhysicalEducation-SQP.pdf"]],
+            "2023-24": [["Hindi Core","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/HindiCore-SQP.pdf"],["Physics","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Physics-SQP.pdf"],["Chemistry","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Chemistry-SQP.pdf"],["Biology","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Biology-SQP.pdf"],["Maths","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Maths-SQP.pdf"],["English","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/EnglishCore-SQP.pdf"],["Phy. Education","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/PhysicalEducation-SQP.pdf"]],
+            "2022-23": [["Hindi Core","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/HindiCore-SQP.pdf"],["Physics","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Physics-SQP.pdf"],["Chemistry","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Chemistry-SQP.pdf"],["Biology","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Biology-SQP.pdf"],["Maths","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Maths-SQP.pdf"],["English","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/EnglishCore-SQP.pdf"],["Phy. Education","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/PhysicalEducation-SQP.pdf"]],
+            "2021-22": [["Hindi Core","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/HindiCore-SQP.pdf"],["Physics","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/Physics-SQP.pdf"],["Chemistry","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/Chemistry-SQP.pdf"],["Biology","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/Biology-SQP.pdf"],["Maths","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/Maths-SQP.pdf"],["English","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf"],["Phy. Education","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/PhysicalEducation-SQP.pdf"]],
+            "2020-21": [["Hindi Core","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2020_21/HindiCore-SQP.pdf"],["Physics","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2020_21/Physics-SQP.pdf"],["Chemistry","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2020_21/Chemistry-SQP.pdf"],["Biology","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2020_21/Biology-SQP.pdf"],["Maths","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2020_21/Maths-SQP.pdf"],["English","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2020_21/EnglishCore-SQP.pdf"],["Phy. Education","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2020_21/PhysicalEducation-SQP.pdf"]],
+            "2019-20": [["Hindi Core","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2019_20/HindiCore_SQP.pdf"],["Physics","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2019_20/Physics_SQP.pdf"],["Chemistry","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2019_20/Chemistry_SQP.pdf"],["Biology","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2019_20/Biology_SQP.pdf"],["Maths","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2019_20/Mathematics_SQP.pdf"],["English","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2019_20/EnglishCore_SQP.pdf"],["Phy. Education","https://cbseacademic.nic.in/web_material/SQP/ClassXII_2019_20/PhysicalEducation_SQP.pdf"]],
+            "2018-19": [["Hindi Core","https://cbseacademic.nic.in/web_material/SQP/Class_XII_2018_19/XII-HindiCore_SQP_2018-19.pdf"],["Physics","https://cbseacademic.nic.in/web_material/SQP/Class_XII_2018_19/XII-Physics_SQP_2018-19.pdf"],["Chemistry","https://cbseacademic.nic.in/web_material/SQP/Class_XII_2018_19/XII-Chemistry_SQP_2018-19.pdf"],["Biology","https://cbseacademic.nic.in/web_material/SQP/Class_XII_2018_19/XII-Biology_SQP_2018-19.pdf"],["Maths","https://cbseacademic.nic.in/web_material/SQP/Class_XII_2018_19/XII_Mathematics_SQP_2018-19.pdf"],["English","https://cbseacademic.nic.in/web_material/SQP/Class_XII_2018_19/XII_Eng_Core_SQP2019.pdf"],["Phy. Education","https://cbseacademic.nic.in/web_material/SQP/Class_XII_2018_19/XII-PhysicalEducation_SQP_2018-19.pdf"]],
+            "2017-18": [["Hindi Core","https://cbseacademic.nic.in/web_material/SQP/CLASS_XII_2017_18_final/HindiCore_SQP.pdf"],["Physics","https://cbseacademic.nic.in/web_material/SQP/CLASS_XII_2017_18_final/Physics_SQP.pdf"],["Chemistry","https://cbseacademic.nic.in/web_material/SQP/CLASS_XII_2017_18_final/Chemistry_SQP.pdf"],["Biology","https://cbseacademic.nic.in/web_material/SQP/CLASS_XII_2017_18_final/Biology_SQP.pdf"],["Maths","https://cbseacademic.nic.in/web_material/SQP/CLASS_XII_2017_18_final/Maths_SQP.pdf"],["English","https://cbseacademic.nic.in/web_material/SQP/CLASS_XII_2017_18_final/EnglishCore_SQP.pdf"],["Phy. Education","https://cbseacademic.nic.in/web_material/SQP/CLASS_XII_2017_18_final/PhysicalEducation_SQP.pdf"]],
+            "2016-17": [["Hindi Core","https://cbseacademic.nic.in/SQP_CLASSXII_2016_17.html"],["Physics","https://cbseacademic.nic.in/SQP_CLASSXII_2016_17.html"],["Chemistry","https://cbseacademic.nic.in/SQP_CLASSXII_2016_17.html"],["Biology","https://cbseacademic.nic.in/SQP_CLASSXII_2016_17.html"],["Maths","https://cbseacademic.nic.in/web_material/SQP/CLASS%20XII_2016_17/Math%20set-ii/SQP_Maths_XII.pdf"],["English","https://cbseacademic.nic.in/SQP_CLASSXII_2016_17.html"],["Phy. Education","https://cbseacademic.nic.in/SQP_CLASSXII_2016_17.html"]],
+            "2015-16": [["Hindi Core","https://cbseacademic.nic.in/SQP_CLASSXII_2015_16.html"],["Physics","https://cbseacademic.nic.in/web_material/SQP/CLASS%20XII_2015_16/SQP-Physics%202016%20SQP.pdf"],["Chemistry","https://cbseacademic.nic.in/SQP_CLASSXII_2015_16.html"],["Biology","https://cbseacademic.nic.in/SQP_CLASSXII_2015_16.html"],["Maths","https://cbseacademic.nic.in/SQP_CLASSXII_2015_16.html"],["English","https://cbseacademic.nic.in/SQP_CLASSXII_2015_16.html"],["Phy. Education","https://cbseacademic.nic.in/SQP_CLASSXII_2015_16.html"]]
+        }
+    };
+
+    const overlay = document.getElementById('pypOverlay');
+    const stepClass = document.getElementById('pypStepClass');
+    const stepYears = document.getElementById('pypStepYears');
+    const yearsList = document.getElementById('pypYearsList');
+    
+    document.getElementById('pypOpenBtn').onclick = () => { overlay.classList.add('active'); stepClass.style.display = 'block'; stepYears.style.display = 'none'; };
+    document.getElementById('pypClose').onclick = () => overlay.classList.remove('active');
+    document.getElementById('pypBack').onclick = () => { stepYears.style.display = 'none'; stepClass.style.display = 'block'; };
+
+    document.querySelectorAll('.pyp-class-btn').forEach(btn => {
+        btn.onclick = () => {
+            const cls = btn.getAttribute('data-class');
+            renderYears(cls);
+            stepClass.style.display = 'none';
+            stepYears.style.display = 'block';
+            document.getElementById('pypYearTitle').innerText = 'Class ' + cls + ' — Select Year';
+        };
+    });
+
+    function renderYears(cls){
+        yearsList.innerHTML = '';
+        Object.keys(PYP_DATA[cls]).forEach(yr => {
+            const block = document.createElement('div'); block.className = 'pyp-year-block';
+            block.innerHTML = `<div class="pyp-year-head">${yr} <i class="fas fa-chevron-down"></i></div>`;
+            const subjWrap = document.createElement('div'); subjWrap.className = 'pyp-subjects';
+            const subjInner = document.createElement('div'); subjInner.className = 'pyp-subjects-inner';
+
+            PYP_DATA[cls][yr].forEach(item => {
+                const a = document.createElement('a'); a.className = 'pyp-subj-btn'; a.href = item[1]; a.target = '_blank';
+                a.innerHTML = `<span>${item[0]}</span> <i class="fas fa-eye"></i>`;
+                subjInner.appendChild(a);
+            });
+            subjWrap.appendChild(subjInner); block.appendChild(subjWrap);
+            
+            block.querySelector('.pyp-year-head').onclick = function() {
+                const isOpen = subjWrap.style.maxHeight;
+                document.querySelectorAll('.pyp-subjects').forEach(el => el.style.maxHeight = null);
+                if(!isOpen) subjWrap.style.maxHeight = subjWrap.scrollHeight + 'px';
+            };
+            yearsList.appendChild(block);
+        });
+    }
+})();
+</script>
+</body>
+</html>
