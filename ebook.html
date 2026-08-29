@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NCERT Books | Apna Library</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Poppins:wght@300;400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    :root {
+        --bg-1:#faf8f4; --bg-2:#f1ece1; --ink:#14213d; --ink-soft:rgba(20,33,61,0.62); 
+        --gold:#c9a227; --gold-deep:#93710f; --gold-soft:rgba(201,162,39,0.12);
+        --glass:rgba(255,255,255,0.55); --glass-strong:rgba(255,255,255,0.78); --glass-border:rgba(255,255,255,0.9);
+        --line:rgba(20,33,61,0.1); --shadow:0 20px 60px rgba(20,33,61,0.10);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background:linear-gradient(180deg,var(--bg-1),var(--bg-2)); color: var(--ink); min-height: 100vh; }
+    .blob{ position:fixed; border-radius:50%; filter:blur(90px); z-index:0; pointer-events:none; }
+    .blob-gold{ width:420px; height:420px; background:rgba(212,175,55,0.30); top:-140px; right:-110px; }
+    .blob-navy{ width:460px; height:460px; background:rgba(20,33,61,0.10); bottom:-180px; left:-150px; }
+
+    nav { position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 18px 5%; background: rgba(255,255,255,0.65); backdrop-filter: blur(20px); border-bottom: 1px solid var(--line); z-index: 1000; }
+    .logo { font-family: 'Playfair Display', serif; font-size: clamp(1.2rem, 4vw, 1.6rem); color: var(--ink); font-weight: 800; }
+    .logo span { color: var(--gold-deep); font-family: 'Poppins', sans-serif; font-size: 0.6rem; display: block; letter-spacing: 3px; }
+    .menu-btn { font-size: 1.6rem; color: var(--gold-deep); cursor: pointer; background: none; border: none; }
+    .sidebar { position: fixed; top: 0; right: -340px; width: 310px; height: 100vh; background: rgba(255,255,255,0.85); backdrop-filter: blur(24px); border-left: 1px solid var(--glass-border); transition: 0.4s ease; z-index: 2000; padding: 40px 20px; box-shadow: -20px 0 60px rgba(20,33,61,0.12); }
+    .sidebar.active { right: 0; }
+    .close-btn { font-size: 1.8rem; color: var(--ink); cursor: pointer; float: right; margin-bottom: 30px; }
+    .sidebar-links { display: flex; flex-direction: column; gap: 10px; clear: both; }
+    .sidebar-links a { color: var(--ink); text-decoration: none; padding: 14px; border-radius:12px; display: flex; align-items: center; gap: 14px; transition: 0.25s; }
+    .sidebar-links a:hover { color: var(--gold-deep); background: var(--gold-soft); }
+
+    .page { position:relative; z-index:1; margin-top:120px; padding:0 5% 50px; display:flex; flex-direction:column; align-items:center; }
+    .hero { text-align:center; margin-bottom:30px; }
+    .hero h1 { font-family:'Fraunces', serif; font-size:2.5rem; color:var(--ink); margin-bottom:10px; }
+    .card { width:100%; max-width:600px; background:var(--glass-strong); backdrop-filter:blur(30px); border:1px solid var(--glass-border); border-radius:24px; padding:35px 30px; box-shadow:var(--shadow); }
+    
+    .field { margin-bottom:20px; }
+    .field label { display:block; font-size:0.9rem; color:var(--gold-deep); font-weight:600; margin-bottom:8px; text-transform: uppercase; letter-spacing: 1px; }
+    select { width:100%; padding:14px; border-radius:14px; border:1px solid var(--line); background:white; font-size:1rem; outline:none; transition:0.3s; cursor:pointer; }
+    select:disabled { background:#eaeaea; cursor:not-allowed; }
+    select:focus { border-color:var(--gold); }
+    
+    .go-btn { width: 100%; background:linear-gradient(135deg,var(--gold),var(--gold-deep)); color:white; border:none; border-radius:14px; padding:15px; font-size:1.1rem; font-weight:600; cursor:pointer; margin-top: 20px; transition:0.3s; box-shadow:0 10px 24px rgba(147,113,15,0.25); }
+    .go-btn:disabled { background:#ccc; box-shadow:none; cursor:not-allowed; }
+    .go-btn:hover:not(:disabled) { transform:translateY(-2px); }
+</style>
+</head>
+<body>
+<div class="blob blob-gold"></div>
+<div class="blob blob-navy"></div>
+
+<nav>
+    <div class="logo">APNA <span>LIBRARY</span></div>
+    <button class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+</nav>
+
+<div class="sidebar" id="sidebar">
+    <i class="fas fa-times close-btn" onclick="toggleSidebar()"></i>
+    <div class="sidebar-links">
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="seat.html"><i class="fas fa-chair"></i> Live Seat Matrix</a>
+        <a href="enquiry.html"><i class="fas fa-paper-plane"></i> Book a Seat</a>
+        <a href="papers.html"><i class="fa-solid fa-file-lines"></i> CBSE Papers</a>
+        <a href="ebook.html" style="color: var(--gold-deep); background: var(--gold-soft);"><i class="fa-solid fa-book"></i> NCERT E-Books</a>
+        <a href="curricular.html"><i class="fa-solid fa-book-open-reader"></i> CBSE Curricular</a>
+        <a href="digilocker.html"><i class="fa-solid fa-cloud-arrow-down"></i> DigiLocker</a>
+        <a href="pariksha.html"><i class="fa-solid fa-laptop-file"></i> Pariksha Sangam</a>
+        <a href="cbse.html"><i class="fa-solid fa-globe"></i> CBSE Official</a>
+    </div>
+</div>
+
+<div class="page">
+    <div class="hero">
+        <h1>NCERT Official E-Books</h1>
+        <p>Class → Subject → Book → Chapter → Open PDF directly.</p>
+    </div>
+
+    <div class="card">
+        <div class="field"><label>Class</label><select id="classSelect"><option value="">Select class</option></select></div>
+        <div class="field"><label>Subject</label><select id="subjectSelect" disabled><option value="">Select class first</option></select></div>
+        <div class="field"><label>Book</label><select id="bookSelect" disabled><option value="">Select subject first</option></select></div>
+        <div class="field"><label>Chapter</label><select id="chapterSelect" disabled><option value="">Select book first</option></select></div>
+        <button class="go-btn" id="goBtn" disabled>Open PDF File <i class="fas fa-arrow-right"></i></button>
+    </div>
+</div>
+
+<script>
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
+
+const DATA = {
+  "5": { "Mathematics": [["Math-Magic", "eemh1", 14]], "EVS": [["Looking Around", "eeap1", 22]], "Hindi": [["Rimjhim", "ehhn1", 18]] },
+  "6": { "English": [["Honeysuckle", "fehl1", 10], ["A Pact with the Sun (supplementary)", "fepw1", 10]], "Hindi": [["Vasant", "fhdv1", 17], ["Bal Ram Katha (supplementary)", "fhbr1", 12]], "Mathematics": [["Mathematics", "femh1", 14]], "Science": [["Science", "fesc1", 16]], "Social Science": [["History — Our Pasts I", "fess1", 10], ["Geography", "fess2", 8], ["Civics — Social & Political Life", "fess3", 9]] },
+  "7": { "English": [["Honeycomb", "gehc1", 10], ["An Alien Hand (supplementary)", "geah1", 10]], "Hindi": [["Vasant", "ghvs1", 17], ["Durva (supplementary)", "ghdv1", 18]], "Mathematics": [["Mathematics", "gemh1", 15]], "Science": [["Science", "gesc1", 18]], "Social Science": [["History — Our Pasts II", "gess1", 10], ["Geography", "gess2", 8], ["Civics", "gess3", 9]] },
+  "8": { "English": [["Honeydew", "hehd1", 10], ["It So Happened (supplementary)", "heih1", 10]], "Hindi": [["Vasant", "hhvs1", 18], ["Durva (supplementary)", "hhdv1", 19], ["Bharat Ki Khoj (supplementary)", "hhbk1", 9]], "Mathematics": [["Mathematics", "hemh1", 16]], "Science": [["Science", "hesc1", 18]], "Social Science": [["History — Our Pasts III", "hess2", 10], ["Geography — Resources & Development", "hess4", 6], ["Civics", "hess3", 10]] },
+  "9": { "English": [["Beehive", "iebe1", 11], ["Moments (supplementary)", "iemo1", 10]], "Hindi": [["Kshitiz (prose & poetry)", "ihks1", 17], ["Sparsh (prose & poetry)", "ihsp1", 10], ["Kritika (supplementary)", "ihkr1", 3]], "Mathematics": [["Mathematics", "iemh1", 15]], "Science": [["Science", "iesc1", 15]], "Social Science": [["History — India & the Contemporary World", "iess3", 5], ["Geography — Contemporary India", "iess1", 6], ["Democratic Politics", "iess4", 5], ["Economics", "iess2", 4]] },
+  "10": { "English": [["First Flight", "jeff1", 9], ["Footprints without Feet (supplementary)", "jefp1", 9]], "Hindi": [["Kshitiz (prose & poetry)", "jhks1", 12], ["Sparsh (prose & poetry)", "jhsp1", 14], ["Sanchayan (supplementary)", "jhsy1", 3]], "Mathematics": [["Mathematics", "jemh1", 15]], "Science": [["Science", "jesc1", 16]], "Social Science": [["History", "jess3", 5], ["Geography", "jess1", 7], ["Democratic Politics", "jess4", 5], ["Economics", "jess2", 5]] },
+  "11": { "English": [["Hornbill (prose & poetry)", "kehb1", 14], ["Woven Words (supplementary)", "keww1", 27]], "Hindi": [["Aroh (prose & poetry)", "khar1", 16], ["Vitan (supplementary)", "khvt1", 4]], "Mathematics": [["Mathematics", "kemh1", 14]], "Physics": [["Part I", "keph1", 7], ["Part II", "keph2", 7]], "Chemistry": [["Part I", "kech1", 6], ["Part II", "kech2", 3]], "Biology": [["Biology", "kebo1", 19]], "Accountancy": [["Part I", "keac1", 7], ["Part II", "keac2", 2]], "Business Studies": [["Business Studies", "kebs1", 11]], "Economics": [["Statistics for Economics", "kest1", 8], ["Indian Economic Development", "keec1", 8]], "Psychology": [["Psychology", "kepy1", 8]], "Geography": [["Fundamentals of Physical Geography", "kegy2", 14], ["India: Physical Environment", "kegy1", 6]], "Sociology": [["Introducing Sociology", "kesy1", 5], ["Understanding Society", "kesy2", 5]], "Political Science": [["Political Theory", "keps1", 8], ["Indian Constitution", "keps2", 10]], "History": [["History", "kehs1", 7]], "Computer Science": [["Computer Science", "kecs1", 11]], "Biotechnology": [["Biotechnology", "kebt1", 12]], "Fine Arts": [["Fine Arts", "kefa1", 8]] },
+  "12": { "English": [["Flamingo (prose & poetry)", "lefl1", 13], ["Kaleidoscope (supplementary)", "lekl1", 21]], "Hindi": [["Aroh (prose & poetry)", "lhar1", 15], ["Vitan (supplementary)", "lhvt1", 3]], "Mathematics": [["Part I", "lemh1", 6], ["Part II", "lemh2", 7]], "Physics": [["Part I", "leph1", 8], ["Part II", "leph2", 6]], "Chemistry": [["Part I", "lech1", 5], ["Part II", "lech2", 5]], "Biology": [["Biology", "lebo1", 13]], "Accountancy": [["Part I", "leac1", 4], ["Part II", "leac2", 6]], "Business Studies": [["Part I", "lebs1", 8], ["Part II", "lebs2", 3]], "Economics": [["Economics", "leec1", 6]], "Psychology": [["Psychology", "lepy1", 7]], "Geography": [["Fundamentals of Human Geography", "legy1", 8], ["India: People and Economy", "legy2", 9]], "Sociology": [["Indian Society", "lesy1", 7], ["Social Change and Development", "lesy2", 8]], "Political Science": [["Contemporary World Politics", "leps2", 8]], "History": [["Indian History Part I", "lehs1", 4], ["Themes in Indian History Part II", "lehs2", 4]], "Computer Science": [["Computer Science", "lecs1", 13]], "Fine Arts": [["Fine Arts", "lefa1", 8]] }
+};
+
+const classSelect = document.getElementById('classSelect');
+const subjectSelect = document.getElementById('subjectSelect');
+const bookSelect = document.getElementById('bookSelect');
+const chapterSelect = document.getElementById('chapterSelect');
+const goBtn = document.getElementById('goBtn');
+
+Object.keys(DATA).forEach(cls => { classSelect.add(new Option("Class " + cls, cls)); });
+
+function reset(sel, txt) { sel.innerHTML = `<option value="">${txt}</option>`; sel.disabled = true; }
+
+classSelect.onchange = () => {
+    reset(bookSelect, "Select subject first"); reset(chapterSelect, "Select book first"); goBtn.disabled = true;
+    if (!classSelect.value) return reset(subjectSelect, "Select class first");
+    subjectSelect.innerHTML = '<option value="">Select subject</option>';
+    Object.keys(DATA[classSelect.value]).forEach(subj => subjectSelect.add(new Option(subj, subj)));
+    subjectSelect.disabled = false;
+};
+
+subjectSelect.onchange = () => {
+    reset(chapterSelect, "Select book first"); goBtn.disabled = true;
+    if (!subjectSelect.value) return reset(bookSelect, "Select subject first");
+    bookSelect.innerHTML = '<option value="">Select book</option>';
+    DATA[classSelect.value][subjectSelect.value].forEach((b, i) => bookSelect.add(new Option(b[0], i)));
+    bookSelect.disabled = false;
+};
+
+bookSelect.onchange = () => {
+    goBtn.disabled = true;
+    if (bookSelect.value === "") return reset(chapterSelect, "Select book first");
+    const max = DATA[classSelect.value][subjectSelect.value][bookSelect.value][2];
+    chapterSelect.innerHTML = '<option value="">Select chapter</option>';
+    for (let i = 1; i <= max; i++) chapterSelect.add(new Option("Chapter " + i, i));
+    chapterSelect.disabled = false;
+};
+
+chapterSelect.onchange = () => goBtn.disabled = !chapterSelect.value;
+
+goBtn.onclick = () => {
+    const code = DATA[classSelect.value][subjectSelect.value][bookSelect.value][1];
+    const chapNum = String(chapterSelect.value).padStart(2, '0');
+    window.open("https://ncert.nic.in/textbook/pdf/" + code + chapNum + ".pdf", "_blank");
+};
+</script>
+</body>
+</html>
